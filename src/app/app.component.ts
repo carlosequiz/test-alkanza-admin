@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AF } from "./providers/af";
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+    public images: FirebaseListObservable<any[]>;
+
+    constructor(public afService: AF) {
+        //this.images = afService.images;
+        //this.images = afService.db.list("/images");
+        this.images = this.afService.db.list('/images', {
+            query: {
+                orderByChild: 'timestamp'
+            }
+        });
+    }
 }
